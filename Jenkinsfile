@@ -23,6 +23,7 @@ pipeline {
             steps {
                 sh '''
                 ls -la build/
+                npm test
                 '''
             }
         }
