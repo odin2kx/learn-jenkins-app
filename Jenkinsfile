@@ -83,6 +83,7 @@ pipeline {
                   node_modules/.bin/netlify deploy --dir=build --prod
                   '''
             }
+        }
         stage('Prod E2E') {
             agent {
                 docker {
