@@ -14,6 +14,7 @@ pipeline {
             }
             steps {
                 sh '''
+                  echo 'test trigger'
                   ls -la
                   node --version
                   npm --version
