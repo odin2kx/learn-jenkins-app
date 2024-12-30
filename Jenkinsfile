@@ -21,6 +21,7 @@ pipeline {
                     yum install jq -y
                     LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq '.taskDefinition.revision')
                     aws ecs update-service --cluster LeanJenkins-prod --service LearnJenkins-Service-prod --task-definition LeanrJenkins-task-def-prod:$LATEST_TD_REVISION
+                    aws ecs wait services-stable --cluster LeanJenkins-prod --services LearnJenkins-Service-prod
                 '''
                 }
             }
