@@ -28,8 +28,18 @@ pipeline {
             }
         }
         stage ('Build Docker Image') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli'
+                    reuseNode true
+                    args "-u root -v /var/run/docker.sock:/var/run/docker.sock --entrypoint=''"
+                }
+            }
             steps {
-                sh 'docker build -t my-jenkinsapp .'
+                sh '''
+                amazon-linux-extras install docker
+                docker build -t my-jenkinsapp .
+                '''
             }
         }
         stage ('deploy AWS') {
@@ -47,7 +57,7 @@ pipeline {
                     yum install jq -y
                     LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq '.taskDefinition.revision')
                     aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICES --task-definition $AWS_ECS_TD:$LATEST_TD_REVISION
-                    aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICES
+                    #aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICES
                 '''
                 }
             }
