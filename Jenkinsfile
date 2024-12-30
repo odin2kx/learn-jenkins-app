@@ -48,6 +48,7 @@ pipeline {
                 '''
             }
         }
+        }
         stage ('deploy AWS') {
             agent {
                 docker {
