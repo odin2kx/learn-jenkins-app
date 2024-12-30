@@ -3,6 +3,7 @@ pipeline {
     environment {
 
         REACT_APP_VERSION = "1.0.$BUILD_ID"
+        NETLIFY_AUTH_TOKEN = credentials('netlify-token')
         APP_NAME = 'learnjeankinsapp'
         AWS_DEFAULT_REGION = "eu-north-1"
         AWS_ECS_CLUSTER = 'LeanJenkins-prod'
